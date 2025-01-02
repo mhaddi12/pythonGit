@@ -49,7 +49,9 @@ def git_commit_and_push(commit_message):
     print(f"Changes pushed successfully to branch '{branch}'.")
 
 if __name__ == "__main__":
-    commit_message = date.today().strftime("%Y-%m-%d")
+    commit_message = input("Enter commit message (default: today's date): ").strip()
+    if not commit_message:
+        commit_message = date.today().strftime("%Y-%m-%d")
 
     if commit_message:
         git_commit_and_push(commit_message)
