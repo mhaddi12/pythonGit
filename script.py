@@ -1,6 +1,6 @@
 import os
 import subprocess
-from datetime import date
+from datetime import date, datetime
 
 def is_git_repo():
     """Check if the current directory is a Git repository."""
@@ -47,6 +47,11 @@ def git_commit_and_push(commit_message):
     print("Pushing changes to the remote repository...")
     run_command(["git", "push", "origin", branch], "Failed to push changes to the remote repository.")
     print(f"Changes pushed successfully to branch '{branch}'.")
+
+    # Update README.md with current date and time
+    current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("README.md", "a") as readme_file:
+        readme_file.write(f"\nUpdated on: {current_datetime}\n")
 
 if __name__ == "__main__":
     commit_message = input("Enter commit message (default: today's date): ").strip()
