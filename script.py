@@ -54,11 +54,10 @@ def git_commit_and_push(commit_message):
         readme_file.write(f"\nUpdated on: {current_datetime}\n")
 
 if __name__ == "__main__":
-    commit_message = input("Enter commit message (default: today's date): ").strip()
-    if not commit_message:
+   # commit_message = input("Enter commit message (default: today's date): ").strip()
+    # if not commit_message:
         commit_message = date.today().strftime("%Y-%m-%d")
-
-    if commit_message:
-        git_commit_and_push(commit_message)
-    else:
-        print("Commit message cannot be empty!")
+        if commit_message:
+            git_commit_and_push(commit_message)
+        else:
+            print("Commit message cannot be empty!")
