@@ -35,6 +35,12 @@ def git_commit_and_push(commit_message):
     print("Pulling latest changes...")
     run_command(["git", "pull", "origin", branch], "Failed to pull changes from the remote repository.")
 
+    # Check for changes before staging and committing
+    status = run_command(["git", "status", "--porcelain"], "Failed to check repository status.")
+    if not status:
+        print("No changes to commit. Exiting.")
+        return
+
     # Stage all changes
     print("Staging all changes...")
     run_command(["git", "add", "."], "Failed to stage changes.")
@@ -50,14 +56,18 @@ def git_commit_and_push(commit_message):
 
     # Update README.md with current date and time
     current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("README.md", "a") as readme_file:
-        readme_file.write(f"\nUpdated on: {current_datetime}\n")
+    readme_path = "README.md"
+    
+    # Ensure README.md exists before appending
+    if os.path.exists(readme_path):
+        with open(readme_path, "a") as readme_file:
+            readme_file.write(f"\nUpdated on: {current_datetime}\n")
+    else:
+        print(f"README.md not found. Skipping update.")
 
 if __name__ == "__main__":
-   # commit_message = input("Enter commit message (default: today's date): ").strip()
-    # if not commit_message:
-        commit_message = date.today().strftime("%Y-%m-%d")
-        if commit_message:
-            git_commit_and_push(commit_message)
-        else:
-            print("Commit message cannot be empty!")
+    # Default commit message to today's date
+    commit_message = date.today().strftime("%Y-%m-%d")
+    
+    # Run the git commit and push process
+    git_commit_and_push(commit_message)
